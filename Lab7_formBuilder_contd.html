@@ -1,0 +1,309 @@
+<html>
+<head>
+
+	<style>
+	.head-div{
+		width: 98%;
+		background-color: black;
+		padding: 1%;
+		visibility: visible;
+	
+	}
+
+	#form-maker{
+		width: 98%;
+		background-color: grey;
+		padding: 1%;
+		visibility: hidden;
+
+	}
+
+	#form-view{
+		width: 98%;
+		padding: 1%;
+		visibility: hidden;
+
+	}
+
+	a{
+		text-decoration: none;
+		color: white;
+		padding: 1%;
+
+	}
+	</style>
+
+
+	
+
+
+
+<head>
+
+<body>
+<div class="head-div"><button onclick="formOptions()">Create Form</button></div>
+
+<div id="form-maker">
+	<a href="#" onclick="createText()">Add Text Input</a>
+	<a href="#" onclick="createTextArea()">Add Text Area</a>
+	<a href="#" onclick="createPassword()">Add Password Field</a>
+	<a href="#" onclick="createSelect()">Add Dropdown</a>
+	<a href="#" onclick="createRadio()">Add Radio Buttons</a>
+	<a href="#" onclick="createDatalist()">Add Datalist</a>
+	<a href="#" onclick="createCheck()">Add Checkboxes</a>
+	<a href="#" onclick="createFile()">Add File field</a>
+	<a href="#" onclick="createNumber()">Add Number List</a>
+	<a href="#" onclick="createKeygen()">Add Keygen</a>
+	<a href="#" onclick="create()">Complete Form</a>
+
+</div>
+<div id="form-view">
+
+</div>
+
+
+	<script>
+
+		var ihtml = "";
+		var jsonfile ="";
+
+		var fv = document.getElementById("form-view");
+
+
+		function formOptions(){	
+
+			var fm = document.getElementById("form-maker");
+			
+			if(fm.style.visibility==""){
+				var form_name = prompt("Enter form name", "");
+
+				ihtml = ihtml + "<h1><center>"+form_name+"<center></h1><form method='post'>";
+				fv.innerHTML = ihtml;
+				fm.style.visibility= "visible";	
+				fv.style.visibility= "visible";	
+
+				jsonfile = jsonfile + "{'"+form_name + "': [";
+			}
+
+			else
+				alert("Form already created.");
+				
+		}
+
+		function createText(){	
+
+			var text_name = prompt("Enter text field name","");
+			var o = confirm("Is this field compulsary?");
+			var a="";
+			if(o==true){
+				a = "required";
+
+			}
+			ihtml = ihtml + text_name + ": <input type='text' style='margin:5px' "+a+"><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': '"+text_name + "','Type': 'text', 'Attributes' : '"+a+"'},";
+		}
+
+
+		function createTextArea(){	
+
+			var text_name = prompt("Enter textarea name","");
+			var o = confirm("Is this field compulsary?");
+			var a="";
+			if(o==true){
+				a = "required";
+
+			}
+			ihtml = ihtml + text_name + ":<br> <textarea style='margin:5px' "+a+"></textarea><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': '"+text_name + "','Type': 'textarea', 'Attributes' : '"+a+"'},";
+		}
+
+		function createPassword(){	
+
+			var password_name = prompt("Enter text for password field","");
+			var o = confirm("Is this field compulsary?");
+			var a="";
+			if(o==true){
+				a = "required";
+
+			}
+			ihtml = ihtml + password_name + ": <input type='password' style='margin:5px' "+a+"><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': '"+password_name + "','Type': 'password', 'Attributes' : '"+a+"'},";
+				
+		}
+
+
+		function createRadio(){	
+
+			var radio_name = prompt("Enter Label for radio buttons","");
+			ihtml = ihtml + radio_name + ":<br>";
+			var radio_option;
+			var o = true;
+			jsonfile = jsonfile + "{'Name': '"+radio_name + "','Type': 'label', 'Attribute':''},";
+
+			var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+
+			while(o==true){
+				radio_option = prompt("Enter Option","");
+				ihtml = ihtml + "<input type='radio' id='"+radio_option+ "' name= '" +radio_name+"' "+a+"> "+radio_option+"<br>";
+				fv.innerHTML = ihtml;
+				jsonfile = jsonfile + "{'Name': '"+radio_option + "','Type': 'radio',  'Attributes' : '"+a+"'},";
+				o = confirm("Do you want to add another option?");
+				
+			}
+
+		}
+
+
+		function createSelect(){	
+
+			var o = true;
+			var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+			ihtml= ihtml+"<select name='abc' " +a+">";
+			jsonfile = jsonfile + "{'Name': '','Type': 'select', 'Attribute': '"+a+"'},";
+
+			ihtml = ihtml + "<option value=''> Select Option<br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': '','Type': 'option'},";
+
+			while(o==true){
+				option = prompt("Enter Option","");
+				ihtml = ihtml + "<option value='"+option+ "'> "+option+"<br>";
+				fv.innerHTML = ihtml;
+				jsonfile = jsonfile + "{'Name': '"+option + "','Type': 'option', 'Attribute': ''},";
+				o = confirm("Do you want to add another option?");
+				
+			}
+
+			ihtml = ihtml + "</select>";
+			fv.innerHTML = ihtml;
+
+		}
+
+		function createCheck(){	
+
+			var check_name = prompt("Enter Label for check options","");
+			ihtml = ihtml + check_name + ":<br>";
+			var check_option;
+			var o = true;
+			jsonfile = jsonfile + "{'Name': '"+check_name + "','Type': 'label', 'Attribute' : ''},";
+
+			while(o==true){
+				check_option = prompt("Enter Option","");
+				ihtml = ihtml + "<input type='checkbox' id='"+check_option+ "' name= '" +check_name+"'> "+check_option+"<br>";
+				fv.innerHTML = ihtml;
+				jsonfile = jsonfile + "{'Name': '"+check_option + "','Type': 'checkbox','Attribute' : ''},";
+				o = confirm("Do you want to add another option?");
+				
+			}
+
+		}
+
+
+		function createFile(){	
+
+			var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+
+
+			ihtml = ihtml +"<input type='file' "+a+"><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': 'input','Type': 'file', 'Attribute': '"+a+"'},";
+		}
+
+
+		function createNumber(){	
+
+		var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+
+		var num_name = prompt("Enter Label for number List","");
+
+			ihtml = ihtml +num_name+": <input type='number' "+a+"><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': '"+num_name+"','Type': 'number', 'Attribute': '"+a+"'},";
+		}
+
+
+		function createKeygen(){	
+
+			var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+
+
+			ihtml = ihtml +"<keygen name='kg' "+a+"><br>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': 'kg','Type': 'keygen', 'Attribute': '"+a+"'},";
+		}
+
+
+		function createDatalist(){	
+
+			var o = true;
+			var s = confirm("Is this field compulsary?");
+			var a="";
+			if(s==true){
+				a = "required";
+
+			}
+
+			var dname = prompt("Enter Datalist name");
+			ihtml= ihtml+dname+": <input list='"+dname+"' "+a+"><datalist id='"+dname+"'>";
+			jsonfile = jsonfile + "{'Name': '"+dname+"','Type': 'input', 'Attribute': '"+a+"'},";
+			jsonfile = jsonfile + "{'Name': '"+dname+"','Type': 'datalist', 'Attribute': ''},";
+
+			while(o==true){
+				option = prompt("Enter Option","");
+				ihtml = ihtml + "<option value='"+option+ "'>";
+				fv.innerHTML = ihtml;
+				jsonfile = jsonfile + "{'Name': '"+option + "','Type': 'option', 'Attribute': ''},";
+				o = confirm("Do you want to add another option?");
+				
+			}
+
+			ihtml = ihtml + "</datalist></input>";
+			fv.innerHTML = ihtml;
+
+		}
+
+		function create(){
+
+			ihtml = ihtml + "<br><input type='submit' value='Submit'>";
+			fv.innerHTML = ihtml;
+			jsonfile = jsonfile + "{'Name': 'Submit','Type': 'submit', 'Attribute': ''},";
+			jsonfile = jsonfile + "]}";
+			localStorage.setItem('json', jsonfile);
+
+		}
+
+
+	</script>
+	
+
+</body>
+
+</html>
